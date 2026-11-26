@@ -3,6 +3,20 @@
 Thumbs.db
 ~$*
 *.swp
+/.obsidian/workspace.json
+/TEAM_PLAN_B.md.bak-*
+
+# 比赛原始数据与实验矩阵留在本地
+/data/*
+!/data/.gitkeep
+/problem/2026 APMCM Problem A/*.tar
+/problem/2026 APMCM Problem B/Data.7z
+/problem/2026 APMCM Problem B/Data/
+/problem/2026 APMCM Problem C/date/*.csv
+/problem/2026 APMCM Problem C/date/*.mp4
+/problem/2026 APMCM Problem C/date/*.wav
+/problem/2026 APMCM Problem D/date/*.csv
+/results/**/*.npz
 
 # Python 本地环境和缓存
 .venv/
