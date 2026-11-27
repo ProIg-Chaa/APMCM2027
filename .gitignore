@@ -5,6 +5,8 @@ Thumbs.db
 *.swp
 /.obsidian/workspace.json
 /TEAM_PLAN_B.md.bak-*
+/.pytest_cache/
+/.vscode/
 
 # 比赛原始数据与实验矩阵留在本地
 /data/*
@@ -17,6 +19,40 @@ Thumbs.db
 /problem/2026 APMCM Problem C/date/*.wav
 /problem/2026 APMCM Problem D/date/*.csv
 /results/**/*.npz
+/results/question2/*_rerun_*/
+/results/question2/dynamic_delay_validation_corrected/run_*/
+/results/question2/final_aligned_dataset/run_*/
+
+# 第二问只提交导师审阅所需的归档结果
+/results/question2/*
+!/results/question2/data_diagnosis/
+!/results/question2/heat_01_reconstruction/
+!/results/question2/final_process_relationships/
+!/results/question2/reliability_threshold_audit/
+!/results/question2/delay_model_v2_2/
+/results/question2/final_process_relationships/*
+!/results/question2/final_process_relationships/README.md
+!/results/question2/final_process_relationships/experiment.json
+!/results/question2/final_process_relationships/*.csv
+!/results/question2/final_process_relationships/figures/
+/results/question2/final_process_relationships/figures/*
+!/results/question2/final_process_relationships/figures/figure_1_oxygen_emission_relationships.pdf
+!/results/question2/final_process_relationships/figures/figure_1_oxygen_emission_relationships.png
+!/results/question2/final_process_relationships/figures/figure_2_cross_heat_totals.pdf
+!/results/question2/final_process_relationships/figures/figure_2_cross_heat_totals.png
+/results/question2/delay_model_v2_2/*
+!/results/question2/delay_model_v2_2/model_comparison_3d.pdf
+!/results/question2/delay_model_v2_2/model_comparison_3d.png
+
+# 第二问交付目录中的历史草图和顶层重复副本
+/deliverables/question2/01_process_signals/draft_figures/
+/deliverables/question2/02_delay_model/*
+!/deliverables/question2/02_delay_model/delay_interface.py
+!/deliverables/question2/02_delay_model/delay_estimation_evidence/
+!/deliverables/question2/02_delay_model/dynamic_validation/
+/deliverables/question2/04_alignment/*
+!/deliverables/question2/04_alignment/final_aligned_dataset/
+!/deliverables/question2/04_alignment/final_figures/
 
 # Python 本地环境和缓存
 .venv/

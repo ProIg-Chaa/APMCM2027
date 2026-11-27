@@ -1,0 +1,66 @@
+{
+  "attachments": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "reconstruction": {
+    "oxygen": "monotone piecewise linear, nominal 10 s knots",
+    "co2": "Huber robust piecewise linear, nominal 5 s knots",
+    "co": "Huber robust piecewise linear, nominal 5 s knots"
+  },
+  "delay_pipeline": {
+    "window_s": 120.0,
+    "step_s": 30.0,
+    "lag_search_s": [
+      0.0,
+      60.0
+    ],
+    "local_preprocessing": "linear detrend",
+    "minimum_correlation": 0.45,
+    "minimum_peak_contrast": 0.08,
+    "minimum_lance_flow_std": 0.1,
+    "boundary_peaks_rejected": true
+  },
+  "validation": {
+    "scheme": "leave one heat out",
+    "reported_metrics": [
+      "window weighted",
+      "equal-weight mean of per-heat RMSE"
+    ],
+    "selection_metric": "equal-weight mean of per-heat RMSE"
+  },
+  "candidate_models": [
+    "fixed",
+    "monotone_linear",
+    "reciprocal",
+    "isotonic"
+  ],
+  "selected_models": {
+    "co2": {
+      "model": "fixed",
+      "selection_metric": "mean_heat_rmse_s",
+      "leave_one_heat_out_mean_heat_rmse_s": 16.493887799628897,
+      "leave_one_heat_out_window_rmse_s": 15.888592398984015,
+      "leave_one_heat_out_window_mae_s": 13.421052631578947,
+      "test_heats": 10,
+      "test_windows": 57
+    },
+    "co": {
+      "model": "fixed",
+      "selection_metric": "mean_heat_rmse_s",
+      "leave_one_heat_out_mean_heat_rmse_s": 15.019624158123971,
+      "leave_one_heat_out_window_rmse_s": 16.548013588686203,
+      "leave_one_heat_out_window_mae_s": 14.16044776119403,
+      "test_heats": 10,
+      "test_windows": 67
+    }
+  }
+}

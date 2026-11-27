@@ -1,0 +1,11 @@
+﻿文件名,采样行数,总列数,光谱列数,是否符合2047个波长点,采样时长_s,缺失值总数,序号缺失数,光谱缺失数,耗氧量缺失数,CO2缺失数,CO缺失数,重复序号数,序号不连续次数,耗氧量下降次数,耗氧量负值数,CO2负值数,CO负值数,耗氧量突变候选数,CO2突变候选数,CO突变候选数,光谱最小值,光谱最大值,光谱均值,光谱标准差,耗氧量原始列名,CO2原始列名,CO原始列名
+Attachment 1. Heat No. 6B03205.xlsb,1479,2051,2047,True,739.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,237.0,62398.0,4058.5608530830423,4219.573848622263,累积耗氧量,CO2浓度,CO浓度
+Attachment 2. Heat No. 6B03206.xlsb,1311,2051,2047,True,655.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,233.0,65535.0,7264.5866630744995,7162.355725498303,YQXH,CO₂ concentration,CO concentration
+Attachment 3. Heat No. 6B03270.xlsb,1413,2051,2047,True,706.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,197.0,61485.0,5724.606599131313,5386.834944621929,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 4. Heat No. 6B03271.xlsb,1420,2051,2047,True,709.5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,246.0,65535.0,6186.097304540482,5775.932799405311,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 5. Heat No. 6C02057.xlsb,775,2051,2047,True,387.0,0,0,0,0,0,0,0,0,0,0,0,0,1,122,236,104.0,65535.0,11373.070274359015,11563.443076166812,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 6. Heat No. 6C02058.xlsb,1343,2051,2047,True,671.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,93.0,65535.0,7264.426555615413,10275.40987312778,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 7. Heat No. 6C02059.xlsb,1555,2051,2047,True,777.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,122.0,65535.0,10105.757818908385,9941.696525416093,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 8. Heat No. 6C02060.xlsb,1373,2051,2047,True,686.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,115.0,65535.0,10478.323965471294,10424.538197802862,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 9. Heat No. 6C02107.xlsb,1459,2051,2047,True,729.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,149.0,65535.0,10100.877994276383,9998.480396092013,Cumulative oxygen consumption,CO₂ concentration,CO concentration
+Attachment 10. Heat No. 6C02108.xlsb,1461,2051,2047,True,730.0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,183.0,65535.0,10881.482780931477,10307.2805875773,Cumulative oxygen consumption,CO₂ concentration,CO concentration

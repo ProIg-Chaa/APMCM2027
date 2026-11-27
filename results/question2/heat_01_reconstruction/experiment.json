@@ -1,0 +1,36 @@
+{
+  "heat": "6B03205",
+  "input_filename": "Attachment 1. Heat No. 6B03205.xlsb",
+  "input_sha256": "8c73aaefadb9c8d8c3f83b193d9b4583dcfdfb239446c69b7eacd4120820783c",
+  "observations": 1479,
+  "sample_step_s": 0.5,
+  "max_time_s": 739.0,
+  "grid_step_s": 0.1,
+  "folds": 5,
+  "gap_sizes_samples": [
+    6,
+    20
+  ],
+  "nominal_segment_spacing_s": {
+    "monotone_linear": 10.0,
+    "robust_linear": 5.0
+  },
+  "peak_holdout_half_width_s": 1.5,
+  "robust_knot_placement": "snap to nearest retained observation and merge duplicates",
+  "huber_scale_floor": 0.05,
+  "peak_prominence_range_fraction": 0.1,
+  "peak_minimum_separation_s": 20.0,
+  "physics_tolerance": 1e-08,
+  "units": {
+    "oxygen": "m^3",
+    "co2": "m^3/s",
+    "co": "m^3/s"
+  },
+  "package_versions": {
+    "numpy": "2.3.4",
+    "scipy": "1.18.1",
+    "pandas": "3.1.1",
+    "python-calamine": "0.9.1",
+    "matplotlib": "3.10.7"
+  }
+}

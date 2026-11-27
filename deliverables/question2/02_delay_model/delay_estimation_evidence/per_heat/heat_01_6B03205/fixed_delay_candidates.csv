@@ -1,0 +1,3 @@
+attachment,heat,signal,delay_s,correlation,peak_contrast,boundary_peak
+1,6B03205,co2,21,0.7460812005,0.04508319561,False
+1,6B03205,co,60,0.5006735858,0.2195425959,True

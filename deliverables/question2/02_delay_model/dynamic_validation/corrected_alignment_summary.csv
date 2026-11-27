@@ -1,0 +1,11 @@
+﻿heat_number,rows,rolling_windows,flow_mean_min,flow_mean_max,co_valid_windows,co2_valid_windows,co_model_used,co_fallback_reason,co_mapping_monotonic_before_fallback,co_mapping_min_step_before_fallback_s,co_cumulative_drops,co2_cumulative_drops,co_dynamic_aligned_points,co_fixed_aligned_points,co2_dynamic_aligned_points,output_file
+1,1479,21,3.3198025146416663,5.087784758333333,20,20,dynamic_candidate,,True,0.4051573684592711,0,0,1414,1414,1410,heat_01_corrected_aligned.csv
+2,1311,18,3.357616112566667,6.4793178833333345,16,15,fixed_fallback,non_monotonic_event_to_analyzer_mapping,False,0.40963705894714053,0,0,1246,1246,1242,heat_02_corrected_aligned.csv
+3,1413,20,3.32062738035,5.780080158333334,20,20,dynamic_candidate,,True,0.4081627156443801,0,0,1348,1348,1344,heat_03_corrected_aligned.csv
+4,1420,20,3.347097836025,5.904079749999999,20,20,dynamic_candidate,,True,0.4083261347157361,0,0,1355,1355,1351,heat_04_corrected_aligned.csv
+5,775,9,7.943479391666669,11.153650211666667,0,0,fixed_fallback,no_valid_dynamic_support,True,0.5,0,0,710,710,706,heat_05_corrected_aligned.csv
+6,1343,19,4.171859952391667,5.488565361666668,19,19,dynamic_candidate,,True,0.3651876174658355,0,0,1278,1278,1274,heat_06_corrected_aligned.csv
+7,1555,22,3.797517919866667,5.426301459166667,22,22,fixed_fallback,non_monotonic_event_to_analyzer_mapping,False,-5.54180941634263,0,0,1490,1490,1486,heat_07_corrected_aligned.csv
+8,1373,19,3.8168334091666662,5.342288835,19,19,fixed_fallback,non_monotonic_event_to_analyzer_mapping,False,-0.046130444346999866,0,0,1308,1308,1304,heat_08_corrected_aligned.csv
+9,1459,21,3.7525404973375003,5.063908283333332,21,21,fixed_fallback,non_monotonic_event_to_analyzer_mapping,False,-2.392847828892627,0,0,1394,1394,1390,heat_09_corrected_aligned.csv
+10,1461,21,4.096185874516667,5.907778481666667,21,21,fixed_fallback,non_monotonic_event_to_analyzer_mapping,False,-2.6667354284591056,0,0,1396,1396,1392,heat_10_corrected_aligned.csv

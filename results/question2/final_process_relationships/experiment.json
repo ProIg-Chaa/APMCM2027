@@ -1,0 +1,20 @@
+{
+  "heats": 10,
+  "sample_step_s": 0.5,
+  "integration": "composite trapezoidal rule on robust reconstructed gas flow",
+  "gas_units": "m^3/s",
+  "cumulative_emission_units": "m^3",
+  "fixed_effective_delay_s": {
+    "co2": 34.0,
+    "co": 32.0
+  },
+  "instantaneous_relationships": {
+    "oxygen_cumulative_vs_observed_gas": "Pearson and Spearman",
+    "oxygen_lance_flow_vs_future_gas": "Pearson and Spearman after fixed-delay alignment"
+  },
+  "cumulative_relationships": {
+    "within_heat": "OLS cumulative gas = intercept + slope * cumulative oxygen",
+    "cross_heat": "final totals across ten heats"
+  },
+  "caution": "Cumulative-versus-cumulative association includes a shared time trend; aligned flow correlations and cross-heat totals are reported separately."
+}

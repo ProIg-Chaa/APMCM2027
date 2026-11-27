@@ -1,0 +1,14 @@
+{
+  "input": "E:\\lzqy\\scut\\APMCM\\APMCM2027\\results\\question2\\ten_heat_reconstruction_delay\\all_window_delay_estimates.csv",
+  "validation": "leave-one-heat-out",
+  "primary_metric": "equal-weight mean heat RMSE",
+  "models": [
+    "fixed",
+    "monotone_linear",
+    "flow_grouped"
+  ],
+  "flow_groups": 3,
+  "minimum_training_windows": 12,
+  "minimum_group_windows": 4,
+  "important_limit": "Evaluation is conditional on V1 reliable windows. This experiment does not independently validate the V1 window reliability filter or lag estimation."
+}

@@ -1,0 +1,7 @@
+﻿rule,total_extreme_windows,retained_extreme_windows,rejected_extreme_windows
+original_reliable,142,21,121
+quality_050_015,142,17,125
+quality_060_020,142,11,131
+quality_070_030,142,5,137
+original_plus_050_015,142,17,125
+original_plus_060_020,142,11,131

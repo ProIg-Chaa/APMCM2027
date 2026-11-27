@@ -1,0 +1,8 @@
+signal,method,grid_step_s,minimum,negative_points,largest_drop,decreasing_steps,endpoint_error,mean_abs_lance_flow_change,physical_check_pass
+oxygen,linear,0.1,2.17,0,0,0,0,8.701503047,True
+oxygen,monotone_linear,0.1,1.079052843,0,0,0,2.499226844,0.01099896738,True
+oxygen,pchip,0.1,2.17,0,0,0,0,8.701503047,True
+co2,robust_linear,0.1,0.06721437733,0,,,,,True
+co2,pchip,0.1,0.06,0,,,,,True
+co,robust_linear,0.1,0,0,,,,,True
+co,pchip,0.1,0,0,,,,,True
