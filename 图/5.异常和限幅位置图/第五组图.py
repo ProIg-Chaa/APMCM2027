@@ -93,15 +93,15 @@ def g5():
 
     # ---------- 图 1：波长方向计数分布 2×2 ----------
     fig, axes = plt.subplots(2, 2, figsize=(15.5, 9.0))
-    cols = [("teammate_flags", "平滑版标记数", PIE_PINK, "a"),
-            ("local_rpca_spikes", "本地 RPCA 尖刺数", PIE_PURPLE, "b"),
-            ("clipped", "限幅饱和点数", PIE_PEACH, "c"),
-            ("clipped_reconstructed", "Hermite 重建点数", PIE_BLUE, "d")]
+    cols = [("teammate_flags", "Smoothed flags", PIE_PINK, "a"),
+            ("local_rpca_spikes", "Local RPCA spikes", PIE_PURPLE, "b"),
+            ("clipped", "Clipping saturation points", PIE_PEACH, "c"),
+            ("clipped_reconstructed", "Hermite reconstructions", PIE_BLUE, "d")]
     NOTE = {
-        "teammate_flags": "短波端（~380 nm）出现异常尖峰",
-        "local_rpca_spikes": "集中在 550–700 nm 中波段",
-        "clipped": "限幅集中在 700–850 nm",
-        "clipped_reconstructed": "Hermite 重建集中在 ~770 nm",
+        "teammate_flags": "Spike at short wavelengths (~380 nm)",
+        "local_rpca_spikes": "Concentrated in 550-700 nm",
+        "clipped": "Clipping concentrated at 700-850 nm",
+        "clipped_reconstructed": "Hermite reconstructions near ~770 nm",
     }
     for ax, (col, name, color, tag) in zip(axes.flat, cols):
         for h, g in w.groupby("attachment"):
@@ -109,24 +109,22 @@ def g5():
                     zorder=1)
         mean = w.groupby("wavelength_nm")[col].mean()
         ax.plot(mean.index.to_numpy(), mean.to_numpy(), color=color, lw=2.4,
-                label="10 炉均值", zorder=3)
+                label="10-furnace mean", zorder=3)
         ax.plot([], [], color=SINGLE_CURVE, lw=0.8, alpha=0.8,
-                label="单炉曲线", zorder=1)
-        panel(ax, tag, "波长方向计数：%s" % name)
-        style_axes(ax, "波长 / nm", "计数 / 点")
-        legend(ax, loc="upper right", fs=8)
+                label="Single furnace", zorder=1)
+        panel(ax, tag, "Wavelength-wise counts: %s" % name)
+        style_axes(ax, "Wavelength / nm", "Count")
+        legend(ax, loc="lower right", fs=8)
         ax.text(0.985, 0.90, NOTE[col],
                 transform=ax.transAxes, ha="right", va="top", fontsize=8,
                 color="#555555",
                 bbox=dict(boxstyle="square,pad=0.3", fc="white", ec="none", alpha=0.85))
-    fig.suptitle("第五组 · 异常与限幅沿波长的分布（10 炉叠加）",
-                 fontsize=14, fontweight="bold", y=0.995)
-    save(fig, "波长计数分布.png", rect=[0, 0, 1, 0.955])
+    save(fig, "G5_Wavelength_Count_Distribution.png", rect=[0, 0, 1, 1.0])
 
     # ---------- 图 2：10 炉异常位置 2×5（按候选类别着色） ----------
     CLASS_COLOR = {0: "#BFBFBF", 1: BLUE, 2: ORANGE, 3: RED, 4: GREEN}
-    CLASS_LABEL = {0: "未标记", 1: "仅 Hampel", 2: "仅鲁棒 PCA",
-                   3: "两者共同", 4: "成段异常"}
+    CLASS_LABEL = {0: "Unflagged", 1: "Hampel only", 2: "RPCA only",
+                   3: "Both", 4: "Segment anomaly"}
     fig, axes = plt.subplots(2, 5, figsize=(20, 7.4))
     for i, (ax, f) in enumerate(zip(axes.flat, files)):
         d = pd.read_csv(f)
@@ -138,17 +136,15 @@ def g5():
                        color=CLASS_COLOR[k], alpha=0.55, lw=0,
                        label=CLASS_LABEL[k], rasterized=True, zorder=2)
         heat = os.path.basename(f).replace(".csv", "")
-        panel(ax, chr(97 + i), "%s（%d 点）" % (heat.split("_", 1)[-1], len(d)), fs=9)
-        style_axes(ax, "时间 / s", "波长 / nm", fs=8)
+        panel(ax, chr(97 + i), "%s (%d points)" % (heat.split("_", 1)[-1], len(d)), fs=9)
+        style_axes(ax, "Time / s", "Wavelength / nm", fs=8)
         ax.tick_params(labelsize=7)
     handles = [Line2D([0], [0], marker="o", lw=0, color=CLASS_COLOR[k],
                       markersize=6, label=CLASS_LABEL[k]) for k in [0, 1, 2, 3, 4]]
     fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, 0.995),
                ncol=5, fontsize=9.5, frameon=True, edgecolor="black",
                fancybox=False, borderpad=0.5, columnspacing=1.6)
-    fig.suptitle("第五组 · 十炉异常候选位置（按候选来源着色）",
-                 fontsize=14, fontweight="bold", y=0.905)
-    save(fig, "异常位置_十炉.png", rect=[0, 0, 1, 0.86])
+    save(fig, "G5_Anomaly_Locations_Ten_Furnaces.png", rect=[0, 0, 1, 0.94])
 
     # ---------- 图 3：三个编码字段分面（选含限幅的代表炉） ----------
     pick = None
@@ -164,11 +160,11 @@ def g5():
     fig, axes = plt.subplots(1, 3, figsize=(17, 5.2))
     specs = [
         ("teammate_candidate_class", {0: "#BFBFBF", 1: BLUE, 2: ORANGE, 3: RED, 4: GREEN},
-         ["未标记", "仅 Hampel", "仅鲁棒 PCA", "两者共同", "成段"], "候选来源"),
+         ["Unflagged", "Hampel only", "RPCA only", "Both", "Segment"], "Candidate source"),
         ("spike_source", {0: "#BFBFBF", 1: PURPLE, 2: ORANGE},
-         ["未补值", "本地方案", "队员候选二次筛查"], "补值来源"),
+         ["No imputation", "Local method", "Teammate candidate recheck"], "Imputation source"),
         ("clipping_status", {0: "#BFBFBF", 1: ORANGE, 2: BLUE},
-         ["无限幅", "保留观测下界", "Hermite 估计"], "限幅处理"),
+         ["No clipping", "Observed lower bound", "Hermite estimate"], "Clipping handling"),
     ]
     for j, (ax, (col, cmap, names, title)) in enumerate(zip(axes, specs)):
         for k, c in cmap.items():
@@ -177,12 +173,10 @@ def g5():
                 continue
             ax.scatter(g["time_s"], g["wavelength_nm"], s=2.0, color=c,
                        alpha=0.6, lw=0, label=names[k], rasterized=True, zorder=2)
-        panel(ax, chr(97 + j), "%s（炉 %s）" % (title, heat))
-        style_axes(ax, "时间 / s", "波长 / nm", fs=9)
+        panel(ax, chr(97 + j), "%s (Furnace %s)" % (title, heat))
+        style_axes(ax, "Time / s", "Wavelength / nm", fs=9)
         legend(ax, loc="upper right", fs=8)
-    fig.suptitle("第五组 · 复核点的三种编码分面（同一炉 %s）" % heat,
-                 fontsize=13, fontweight="bold", y=0.995)
-    save(fig, "编码分面.png", rect=[0, 0, 1, 0.93])
+    save(fig, "G5_Encoding_Facets.png", rect=[0, 0, 1, 1.0])
 
 
 if __name__ == "__main__":

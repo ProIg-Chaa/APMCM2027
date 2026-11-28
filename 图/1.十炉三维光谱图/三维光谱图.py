@@ -42,7 +42,7 @@ def load_surface(path):
     return t, lam, Z
 
 
-def draw_one(ax, t, lam, Z, title, colorbar=False, fig=None):
+def draw_one(ax, t, lam, Z, title, colorbar=False, fig=None, show_title=False):
     tt = t[::TIME_STEP]
     ll = lam[::WAVE_STEP]
     zz = Z[::TIME_STEP, ::WAVE_STEP]
@@ -50,14 +50,15 @@ def draw_one(ax, t, lam, Z, title, colorbar=False, fig=None):
     surf = ax.plot_surface(X, Y, zz, cmap=CMAP, linewidth=0,
                            antialiased=True, rcount=min(len(tt), 220),
                            ccount=min(len(ll), 220))
-    ax.set_xlabel("时间 / s", labelpad=8)
-    ax.set_ylabel("波长 / nm", labelpad=8)
-    ax.set_zlabel("强度 / 计数", labelpad=8)
-    ax.set_title(title, pad=10)
+    ax.set_xlabel("Time / s", labelpad=8)
+    ax.set_ylabel("Wavelength / nm", labelpad=8)
+    ax.set_zlabel("Intensity / counts", labelpad=8)
+    if show_title:
+        ax.set_title(title, pad=10)
     ax.view_init(elev=ELEV, azim=AZIM)
     ax.tick_params(labelsize=8)
     if colorbar and fig is not None:
-        fig.colorbar(surf, ax=ax, shrink=0.6, pad=0.12, label="强度")
+        fig.colorbar(surf, ax=ax, shrink=0.6, pad=0.12, label="Intensity")
     return surf
 
 
@@ -72,10 +73,10 @@ def main():
         t, lam, Z = load_surface(f)
         fig = plt.figure(figsize=(11, 7))
         ax = fig.add_subplot(111, projection="3d")
-        draw_one(ax, t, lam, Z, "炉次 %s 连续三维光谱 S(t, λ)" % base,
+        draw_one(ax, t, lam, Z, "Furnace %s continuous 3D spectrum S(t, λ)" % base,
                  colorbar=True, fig=fig)
         fig.tight_layout()
-        p = os.path.join(OUT, "三维光谱_%s.png" % base)
+        p = os.path.join(OUT, "Furnace_%s_3D_Spectrum.png" % base)
         fig.savefig(p, dpi=DPI, bbox_inches="tight")
         plt.close(fig)
         print("  已出图:", os.path.basename(p), "| t=%.1f–%.1f s, λ=%.3f–%.3f nm"
@@ -87,10 +88,9 @@ def main():
         base = os.path.basename(f).replace(".csv", "")
         t, lam, Z = load_surface(f)
         ax = fig.add_subplot(2, 5, k, projection="3d")
-        draw_one(ax, t, lam, Z, "%s" % base)
-    fig.suptitle("十炉连续三维光谱曲面（整合版，时间 t=(n-1)×0.5 s）", fontsize=15)
-    fig.tight_layout(rect=[0, 0, 1, 0.97])
-    p = os.path.join(OUT, "三维光谱_十炉拼版.png")
+        draw_one(ax, t, lam, Z, "%s" % base, show_title=True)
+    fig.tight_layout(rect=[0, 0, 1, 1.0])
+    p = os.path.join(OUT, "Ten_Furnaces_3D_Spectral_Surfaces.png")
     fig.savefig(p, dpi=DPI, bbox_inches="tight")
     plt.close(fig)
     print("拼版:", p, flush=True)

@@ -39,11 +39,11 @@ ORDER = ["isolated_spike", "coherent_peak", "teammate_supported_spike",
          "short_clipping", "long_clipping"]
 LABEL = ["a", "b", "c", "d", "e"]
 TITLE = {
-    "isolated_spike": "孤立尖刺补值",
-    "coherent_peak": "相干谱峰保真",
-    "teammate_supported_spike": "队员掩码支持的尖刺补值",
-    "short_clipping": "短平顶重建（Hermite 弧）",
-    "long_clipping": "长平顶：保留观测下界",
+    "isolated_spike": "Isolated spike imputation",
+    "coherent_peak": "Coherent peak fidelity",
+    "teammate_supported_spike": "Spike imputation supported by teammate mask",
+    "short_clipping": "Short plateau reconstruction (Hermite arc)",
+    "long_clipping": "Long plateau: preserved observed lower bound",
 }
 
 
@@ -57,8 +57,8 @@ def style_axes(ax):
                    length=4, width=0.8, labelsize=8.5)
     ax.grid(True, color=C_GRID, lw=0.6, ls="-", alpha=0.9)
     ax.set_axisbelow(True)
-    ax.set_xlabel("波长 / nm", fontsize=9.5)
-    ax.set_ylabel("强度 / 仪器计数", fontsize=9.5)
+    ax.set_xlabel("Wavelength / nm", fontsize=9.5)
+    ax.set_ylabel("Intensity / counts", fontsize=9.5)
 
 
 def draw(ax, g, ex, tag="", compact=False):
@@ -81,23 +81,23 @@ def draw(ax, g, ex, tag="", compact=False):
 
 
     ax.plot(w, fused, color=C_FUSED, lw=1.7, marker="s", ms=4.2,
-            markevery=every, label="整合版 fused", zorder=3)
+            markevery=every, label="Fused", zorder=3)
     ax.plot(w, team, color=C_TEAM, lw=1.4, ls="--", marker="^", ms=4.4,
-            markevery=every, label="队员平滑版 teammate_smoothed", zorder=2)
+            markevery=every, label="Teammate smoothed", zorder=2)
     if SHOW_LOCAL:
         ax.plot(w, local, color=C_LOCAL, lw=1.0, ls=":", marker="D", ms=3.4,
-                markevery=every, label="本地版 local_complete", zorder=2)
+                markevery=every, label="Local", zorder=2)
 
 
     ax.scatter(w, obs, s=16 if not compact else 11, facecolors="white",
-               edgecolors=C_OBS, linewidths=0.8, label="原测 observed", zorder=4)
+               edgecolors=C_OBS, linewidths=0.8, label="Observed", zorder=4)
 
     # 补值点：橙色空心圈 + 竖线连接原值与补回值
     fixed = src > 0
     if fixed.any():
         ax.scatter(w[fixed], obs[fixed], s=80 if not compact else 48,
                    facecolors="none", edgecolors=C_FIX, linewidths=1.5,
-                   label="被补值的尖刺", zorder=5)
+                   label="Imputed spike", zorder=5)
         for i in np.where(fixed)[0]:
             ax.plot([w[i], w[i]], [obs[i], fused[i]], color=C_FIX,
                     lw=0.9, alpha=0.8, zorder=2)
@@ -112,7 +112,7 @@ def draw(ax, g, ex, tag="", compact=False):
         ax.set_title("(%s) %s" % (tag, TITLE.get(ex, ex)),
                      loc="left", fontsize=10.5 if not compact else 9.5,
                      fontweight="bold", pad=6)
-    ax.text(0.985, 0.035, "炉 %s · t = %.1f s" % (heat, t),
+    ax.text(0.985, 0.035, "Furnace %s | t = %.1f s" % (heat, t),
             transform=ax.transAxes, fontsize=7.5, va="bottom", ha="right",
             color="#555555")
     style_axes(ax)
@@ -120,7 +120,7 @@ def draw(ax, g, ex, tag="", compact=False):
     # 长平顶：大片空白区加一句注记，说明为何不重建峰高
     if ex == "long_clipping":
         ax.text(0.5, 0.52,
-                "640 / 645 个观测为 65,535 下界\n整合版保留原值，不估计真实峰高",
+                "640 / 645 observations at the 65,535 lower bound\nFused preserves observed values; true peak height not estimated",
                 transform=ax.transAxes, ha="center", va="center",
                 fontsize=9, linespacing=1.5, color="#333333",
                 bbox=dict(boxstyle="square,pad=0.5", fc="white",
@@ -128,7 +128,7 @@ def draw(ax, g, ex, tag="", compact=False):
 
     # 谱峰保真结论框（核心证据）：白底黑框，贴近论文注记
     if ex == "coherent_peak":
-        msg = ("原测峰值 %.0f\n整合版 %.0f（保持 100%%）\n平滑版 %.0f（降低 %.0f%%）"
+        msg = ("Observed peak %.0f\nFused %.0f (100%% preserved)\nSmoothed %.0f (%.0f%% lower)"
                % (obs.max(), fused.max(), team.max(),
                   100 * (1 - team.max() / obs.max())))
         ax.text(0.02, 0.96, msg, transform=ax.transAxes, fontsize=8.2,
@@ -140,18 +140,18 @@ def draw(ax, g, ex, tag="", compact=False):
 def legend_handles():
     h = [
         Line2D([0], [0], marker="o", mfc="white", mec=C_OBS, lw=0,
-               markersize=6, label="原测 observed"),
+               markersize=6, label="Observed"),
         Line2D([0], [0], color=C_FUSED, lw=1.7, marker="s", ms=4.2,
-               label="整合版 fused（主结果）"),
+               label="Fused (primary result)"),
         Line2D([0], [0], color=C_TEAM, lw=1.4, ls="--", marker="^", ms=4.4,
-               label="队员平滑版 teammate_smoothed"),
+               label="Teammate smoothed"),
         Line2D([0], [0], marker="o", mfc="none", mec=C_FIX, lw=0,
-               markersize=7, label="被补值的尖刺 (spike_source>0)"),
-        Line2D([0], [0], color=C_SAT, lw=1.0, ls="-.", label="饱和上限 65,535"),
+               markersize=7, label="Imputed spike (spike_source>0)"),
+        Line2D([0], [0], color=C_SAT, lw=1.0, ls="-.", label="Saturation limit 65,535"),
     ]
     if SHOW_LOCAL:
         h.append(Line2D([0], [0], color=C_LOCAL, lw=1.0, ls=":", marker="D",
-                        ms=3.4, label="本地版 local_complete"))
+                        ms=3.4, label="Local"))
     return h
 
 
@@ -171,7 +171,7 @@ def main():
                   frameon=True, edgecolor="black", fancybox=False,
                   borderpad=0.6, columnspacing=1.2)
         fig.subplots_adjust(bottom=0.24, top=0.93, left=0.10, right=0.97)
-        p = os.path.join(OUT, "截面_%s.png" % ex)
+        p = os.path.join(OUT, "Section_%s.png" % ex)
         fig.savefig(p, dpi=DPI, facecolor="white")
         plt.close(fig)
         print("  已出图:", os.path.basename(p), "| %d 点" % len(g), flush=True)
@@ -185,16 +185,16 @@ def main():
     last = axes.flat[5]
     last.axis("off")
     last.text(0.02, 0.92,
-              "读图要点\n\n"
-              "· 空心圆＝仪器原测值\n"
-              "· 蓝方块实线＝整合版，未补值处严格经过原测点\n"
-              "· 红三角虚线＝队员整图高斯平滑，峰高被系统压低\n"
-              "· 橙圈＝被确认并补回的孤立尖刺\n"
-              "· 平顶＝65,535 饱和读数（观测下界，非真实峰高）\n"
-              "· 淡蓝底＝Hermite 重建段；淡米底＝保留下界段\n\n"
-              "数据来源：03_spectral_sections.csv\n"
-              "时间 t=(n-1)×0.5 s，第一帧 0 s\n"
-              "各炉保留原生波长轴（两套标定不强行统一）",
+              "How to read\n\n"
+              "- Open circles = raw instrument observations\n"
+              "- Blue squares (solid) = fused; passes exactly through observed points where no imputation\n"
+              "- Red triangles (dashed) = teammate full-map smoothing; peak heights systematically lowered\n"
+              "- Orange circles = confirmed and imputed isolated spikes\n"
+              "- Plateaus = 65,535 saturation readings (observed lower bound, not true peak height)\n"
+              "- Light blue band = Hermite reconstruction; light beige band = preserved lower bound\n\n"
+              "Source: 03_spectral_sections.csv\n"
+              "Time t=(n-1)*0.5 s; first frame at 0 s\n"
+              "Each furnace keeps its native wavelength axis (two calibrations not unified)",
               transform=last.transAxes, fontsize=9.5, va="top", linespacing=1.55,
               bbox=dict(boxstyle="square,pad=0.6", fc="white", ec="black", lw=0.9))
 
@@ -202,10 +202,8 @@ def main():
                bbox_to_anchor=(0.5, 0.998), ncol=5, fontsize=9.5,
                frameon=True, edgecolor="black", fancybox=False,
                borderpad=0.55, columnspacing=1.4)
-    fig.suptitle("局部截面：尖刺补值与谱峰保真（整合版）",
-                 fontsize=14, y=0.925, fontweight="bold")
     fig.tight_layout(rect=[0, 0, 1, 0.875], h_pad=1.6, w_pad=1.2)
-    p = os.path.join(OUT, "截面_五图拼版.png")
+    p = os.path.join(OUT, "Local_Sections_Spike_Imputation_and_Peak_Fidelity.png")
     fig.savefig(p, dpi=DPI, facecolor="white", bbox_inches="tight")
     plt.close(fig)
     print("拼版:", p, flush=True)

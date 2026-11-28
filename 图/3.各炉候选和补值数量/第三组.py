@@ -82,10 +82,10 @@ def main():
 
     # (a) 平滑版标记数构成：chart1 浅色填充 + 黑色描边
     ax = axes[0, 0]
-    parts = [("teammate_hampel_only", "仅 Hampel", BLUE_L),
-             ("teammate_rpca_only", "仅鲁棒 PCA", PURPLE_L),
-             ("teammate_both", "两者共同", GREEN_L),
-             ("teammate_segment", "成段异常", YELLOW_L)]
+    parts = [("teammate_hampel_only", "Hampel only", BLUE_L),
+             ("teammate_rpca_only", "RPCA only", PURPLE_L),
+             ("teammate_both", "Both", GREEN_L),
+             ("teammate_segment", "Segment anomaly", YELLOW_L)]
     bottom = np.zeros(len(df))
     for col, name, color in parts:
         v = df[col].to_numpy(float)
@@ -94,23 +94,23 @@ def main():
         bottom += v
     ax.bar_label(ax.containers[-1], labels=["%d" % int(t) for t in bottom],
                  fontsize=6.5, padding=2)
-    panel(ax, "a", "平滑版标记数构成（合计 108,539）")
-    style_axes(ax, "炉次编号", "标记点数")
+    panel(ax, "a", "Smoothed-version flags (total 108,539)")
+    style_axes(ax, "Furnace ID", "Flag count")
     ax.set_xticks(x); ax.set_xticklabels(labs)
     legend(ax, loc="upper left", fs=7.5)
 
     # (b) 本地 RPCA 与整合版补值：chart3 紫 + chart4 深蓝
     ax = axes[0, 1]
     b1 = ax.bar(x - w / 2, df["local_rpca_spike"], w,
-                label="本地鲁棒 PCA 独有", color=PURPLE,
+                label="Local RPCA only", color=PURPLE,
                 edgecolor=BLACK, lw=EDGE_LW)
     b2 = ax.bar(x + w / 2, df["fused_spikes"], w,
-                label="整合版最终补值", color=DEEPBLUE,
+                label="Fused final imputation", color=DEEPBLUE,
                 edgecolor=BLACK, lw=EDGE_LW)
     ax.bar_label(b1, fmt="%d", fontsize=6.5, padding=1)
     ax.bar_label(b2, fmt="%d", fontsize=6.5, padding=1)
-    panel(ax, "b", "本地 RPCA 与整合版补值（独立纵轴）")
-    style_axes(ax, "炉次编号", "点数")
+    panel(ax, "b", "Local RPCA vs fused imputations (separate scale)")
+    style_axes(ax, "Furnace ID", "Count")
     ax.set_xticks(x); ax.set_xticklabels(labs)
     legend(ax, loc="upper right")   # 避开第 1 炉 385 的高柱
 
@@ -118,14 +118,14 @@ def main():
     ax = axes[1, 0]
     a = df["clipped_reconstructed"].to_numpy(float)
     b = df["clipped_lower_bound"].to_numpy(float)
-    ax.bar(x, a, BAR_W, label="Hermite 弧重建（562）", color=DEEPBLUE,
+    ax.bar(x, a, BAR_W, label="Hermite reconstruction (562)", color=DEEPBLUE,
            edgecolor=BLACK, lw=EDGE_LW)
-    ax.bar(x, b, BAR_W, bottom=a, label="保留观测下界（14,243）", color=BLUE_M,
+    ax.bar(x, b, BAR_W, bottom=a, label="Observed lower bound (14,243)", color=BLUE_M,
            edgecolor=BLACK, lw=EDGE_LW)
     ax.bar_label(ax.containers[-1], labels=["%d" % int(t) for t in a + b],
                  fontsize=6.5, padding=2)
-    panel(ax, "c", "限幅补值构成：Hermite 重建 vs 保留下界")
-    style_axes(ax, "炉次编号", "饱和点数")
+    panel(ax, "c", "Clipping imputation: Hermite reconstruction vs lower bound")
+    style_axes(ax, "Furnace ID", "Saturation count")
     ax.set_xticks(x); ax.set_xticklabels(labs)
     legend(ax, loc="upper left")
 
@@ -133,44 +133,43 @@ def main():
     ax = axes[1, 1]
     t = df["teammate_peaks_with_at_least_20pct_loss"].to_numpy(float)
     f = df["fused_peaks_with_at_least_20pct_loss"].to_numpy(float)
-    b1 = ax.bar(x - w / 2, t, w, label="平滑版 掉≥20% 的峰", color=PINK5,
+    b1 = ax.bar(x - w / 2, t, w, label="Smoothed: >=20% loss", color=PINK5,
                 edgecolor=BLACK, lw=EDGE_LW)
-    ax.bar(x + w / 2, f, w, label="整合版 掉≥20% 的峰", color=DEEPBLUE,
+    ax.bar(x + w / 2, f, w, label="Fused: >=20% loss", color=DEEPBLUE,
            edgecolor=BLACK, lw=EDGE_LW)
     ax.bar_label(b1, fmt="%d", fontsize=6.5, padding=1)
     for xi in x:
         ax.text(xi + w / 2, t.max() * 0.015, "0", ha="center", va="bottom",
                 fontsize=7, color=DEEPBLUE, fontweight="bold")
-    ax.text(0.985, 0.93, "8,460 个受审峰：1,648 vs 0",
+    ax.text(0.985, 0.93, "8,460 audited peaks: 1,648 vs 0",
             transform=ax.transAxes, ha="right", va="top", fontsize=9,
             color=SOFTRED, fontweight="bold",
             bbox=dict(boxstyle="square,pad=0.35", fc="white", ec=BLACK, lw=0.7))
-    panel(ax, "d", "峰高掉 ≥20% 的谱峰数")
-    style_axes(ax, "炉次编号", "峰数")
+    panel(ax, "d", "Peaks with >=20% height loss")
+    style_axes(ax, "Furnace ID", "Peak count")
     ax.set_xticks(x); ax.set_xticklabels(labs)
     legend(ax, loc="upper left")
 
-    fig.suptitle(TITLE, fontsize=14, fontweight="bold", y=0.995)
-    save(fig, "拼版.png", rect=[0, 0, 1, 0.955])
+    save(fig, "G3_Candidate_and_Imputation_Counts.png", rect=[0, 0, 1, 1.0])
 
     # 单图：峰保真
     fig, ax = plt.subplots(figsize=(9, 5))
-    b1 = ax.bar(x - w / 2, t, w, label="队员整图平滑版", color=PINK5,
+    b1 = ax.bar(x - w / 2, t, w, label="Teammate smoothed", color=PINK5,
                 edgecolor=BLACK, lw=EDGE_LW)
-    ax.bar(x + w / 2, f, w, label="整合版（保留原采样强度）", color=DEEPBLUE,
+    ax.bar(x + w / 2, f, w, label="Fused (original sampled intensity preserved)", color=DEEPBLUE,
            edgecolor=BLACK, lw=EDGE_LW)
     ax.bar_label(b1, fmt="%d", fontsize=8, padding=2)
     for xi in x:
         ax.text(xi + w / 2, t.max() * 0.015, "0", ha="center", va="bottom",
                 fontsize=9, color=DEEPBLUE, fontweight="bold")
-    panel(ax, "", "8,460 个受审峰中峰高掉 ≥20% 的数量")
-    style_axes(ax, "炉次编号（1–10）", "峰数")
+    panel(ax, "", "Audited peaks with >=20% height loss")
+    style_axes(ax, "Furnace ID (1-10)", "Peak count")
     ax.set_xticks(x); ax.set_xticklabels(labs)
-    ax.text(0.985, 0.93, "合计 1,648 vs 0", transform=ax.transAxes,
+    ax.text(0.985, 0.93, "Total 1,648 vs 0", transform=ax.transAxes,
             ha="right", va="top", fontsize=11, fontweight="bold", color=SOFTRED,
             bbox=dict(boxstyle="square,pad=0.4", fc="white", ec=BLACK, lw=0.8))
     legend(ax, loc="upper left", fs=9)
-    save(fig, "峰保真.png")
+    save(fig, "G3_Peak_Fidelity_Height_Loss.png")
 
 
 if __name__ == "__main__":
